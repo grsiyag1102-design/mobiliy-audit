@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Live Audit Dashboard</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f7f6; padding: 20px; }
+        .card { background: white; padding: 20px; border-radius: 8px; max-width: 300px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h2 { color: #003366; margin-top: 0;}
+        .number { font-size: 3em; font-weight: bold; color: #ff9900; }
+        .note { color: #666; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>Active Audits</h2>
+        <div class="number" id="audit-count">--</div>
+        <div class="note" id="audit-note">Loading data...</div>
+        <div class="note" style="margin-top: 15px; font-size: 0.8em;">Last Updated: <span id="update-time">--</span></div>
+    </div>
+
+    <script>
+        // This function fetches the data.json file
+        async function fetchDashboardData() {
+            try {
+                // The '?t=' part forces the browser to get the newest file, not a cached version
+                const response = await fetch('data.json?t=' + new Date().getTime());
+                const data = await response.json();
+                
+                // Update the HTML elements with the new data
+                document.getElementById('audit-count').innerText = data.activeAudits + " / " + data.totalCities;
+                document.getElementById('audit-note').innerText = data.statusNote;
+                document.getElementById('update-time').innerText = data.lastUpdated;
+            } catch (error) {
+                console.error("Error loading data:", error);
+            }
+        }
+
+        // 1. Load data immediately when the page opens
+        fetchDashboardData();
+
+        // 2. Set it to check for new data every 10 seconds (10000 milliseconds)
+        setInterval(fetchDashboardData, 10000); 
+    </script>
+</body>
+</html>

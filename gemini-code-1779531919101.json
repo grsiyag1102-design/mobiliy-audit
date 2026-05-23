@@ -1,0 +1,129 @@
+{
+  "kpis": {
+    "totalCities": 101,
+    "activeAudits": 49,
+    "statusNote": "State Action Plans received from FAOs",
+    "lastUpdated": "2026-05-23T15:30:00Z"
+  },
+  "engagement": {
+    "sisterOffices": "Active (Railways, Commercial, Audit-II)",
+    "secretaries": "Mostly Completed",
+    "associations": "Ongoing"
+  },
+  "objectives": {
+    "objective1": {
+      "title": "Extent of Coverage and Access to Urban Transport",
+      "focusAreas": [
+        {
+          "name": "Policy, Plans, Institutional Mechanism & Finance",
+          "findings": [
+            "CMP- Prepared (but not integrated); Not finalized/notified; Not updated",
+            "TOD- Notified; Included in master plan; Not notified",
+            "Urban Transport Fund- Created; Not created; Low utilization of fund"
+          ]
+        },
+        {
+          "name": "Accessibility & Infrastructure",
+          "findings": [
+            "Assessment done in silos; Limited dynamic route rationalization",
+            "Shortage of city buses; Sub-optimal fleet utilization; Absence of PT in peripheral area",
+            "No organised IPT and Feeder Buses; High Dependence on IPT",
+            "Lack of Multimodal Integration; CMC not operationalised"
+          ]
+        }
+      ]
+    },
+    "objective2": {
+      "title": "Quality of Urban Transport",
+      "focusAreas": [
+        {
+          "name": "Affordability & Comfort",
+          "findings": [
+            "Fare disparity; Weak regulation of IPT fare",
+            "Absence of directional signages; No real time Passenger Information System",
+            "Lack of passenger amenities",
+            "GRM- Available; Lack of awareness"
+          ]
+        },
+        {
+          "name": "Intelligent Transport Systems (ITS) / ICCC",
+          "findings": [
+            "Real-time passenger demand tracking app available; ICCC not fully operationalised",
+            "Punctuality data not monitored, not disclosed",
+            "ITS integration not done; Limited ITS enabled buses"
+          ]
+        }
+      ]
+    },
+    "objective3": {
+      "title": "Traffic and Congestion Management",
+      "focusAreas": [
+        {
+          "name": "Traffic Management",
+          "findings": [
+            "Personnel deployment – insufficient, junction-based",
+            "Low rate of traffic signal synchronisation; Traffic signals switched off at peak hours",
+            "No dedicated lanes, inadequate road marking"
+          ]
+        },
+        {
+          "name": "Parking Policies & Enforcement",
+          "findings": [
+            "No provisions for parking in building byelaws",
+            "Unrealised parking fees and user charges",
+            "Limited/No multi-level parking",
+            "Congestion charging not fully implemented"
+          ]
+        }
+      ]
+    },
+    "objective4": {
+      "title": "Sustainable & Non-Motorised Transport",
+      "focusAreas": [
+        {
+          "name": "Sustainable Urban Transport",
+          "findings": [
+            "Non preparation of action plans; Non availing Central/State Assistance",
+            "Slow progress of alternate fuel/ EV adoption",
+            "Lack of EV charging infrastructure",
+            "Unavailable sustainable last mile connectivity",
+            "Inadequate enforcement of emission control measures; Non availability of IT enabled system"
+          ]
+        },
+        {
+          "name": "Non-Motorised Transport (NMT)",
+          "findings": [
+            "Insufficient dedicated walking/ cycling space",
+            "Non achievement of NMT network targets",
+            "Encroached/ Discontinuous footpaths & cycling tracks",
+            "Lack of inclusive and universal accessible NMT infrastructure"
+          ]
+        }
+      ]
+    },
+    "objective5": {
+      "title": "Safe and Secure Mobility",
+      "focusAreas": [
+        {
+          "name": "Safety Infrastructure",
+          "findings": [
+            "Deviations from design standards",
+            "Signages and markings not consistently provided",
+            "Insufficient lighting on pedestrian paths",
+            "CCTVs not integrated with ICCC"
+          ]
+        },
+        {
+          "name": "Processes & Institutional Mechanism",
+          "findings": [
+            "Gaps in regulatory and enforcement mechanism",
+            "Irregular meetings and limited systematic review",
+            "Lack of periodic inspections of vehicles",
+            "Non-regular safety audits",
+            "Unstructured awareness campaigns"
+          ]
+        }
+      ]
+    }
+  }
+}
