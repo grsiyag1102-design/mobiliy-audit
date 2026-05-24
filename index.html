@@ -99,8 +99,21 @@
     let markerLayerGroup;
 
     function initMap() {
-        // Set coordinates to center of India, Zoom Level: 4
-        map = L.map('india-map').setView([22.9, 78.9], 4);
+        // Define the geographical boundaries of India
+        const indiaBounds = [
+            [6.5, 68.0], // Southwest coordinates (approximate bottom left of India)
+            [37.5, 97.5] // Northeast coordinates (approximate top right of India)
+        ];
+
+        // Initialize the map with restricted settings
+        map = L.map('india-map', {
+            center: [22.9, 78.9],
+            zoom: 4,
+            minZoom: 4, // Prevents zooming out to see the whole world
+            maxZoom: 10,
+            maxBounds: indiaBounds, // Locks the panning strictly to India
+            maxBoundsViscosity: 1.0 // Makes the edge solid so you can't drag past it
+        });
         
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
             attribution: '© OpenStreetMap contributors © CARTO'
@@ -124,7 +137,6 @@
                 data.cities.forEach(city => {
                     let fillColor;
                     
-                    // Increment the correct counter and set color
                     if (city.status === "ongoing") {
                         fillColor = "#10b981";
                         ongoingCount++;
@@ -133,7 +145,6 @@
                         plannedCount++;
                     }
                     
-                    // Add the dot to the map
                     L.circleMarker([city.lat, city.lng], {
                         radius: 6,
                         fillColor: fillColor,
@@ -146,11 +157,8 @@
                     .addTo(markerLayerGroup);
                 });
 
-                // Update the legend text dynamically
                 document.getElementById('legend-ongoing').innerText = `Ongoing Audits (${ongoingCount})`;
                 document.getElementById('legend-planned').innerText = `To Be Taken Up (${plannedCount})`;
-                
-                // Also update the main KPI to make sure it perfectly matches the cities counted
                 document.getElementById('audit-count').innerText = `${ongoingCount} / ${data.cities.length}`;
             }
 
