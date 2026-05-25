@@ -6,6 +6,8 @@
     <title>Urban Mobility Audit - Detailed Dashboard</title>
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
@@ -45,8 +47,9 @@
             align-items: center;
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
         }
-        .topbar h1 { margin: 0; font-size: 1.8rem; font-weight: 600; }
-        .topbar p { margin: 5px 0 0; color: #94a3b8; font-size: 0.95rem; }
+        .topbar h1 { margin: 0; font-size: 1.8rem; font-weight: 600; display: flex; align-items: center; gap: 12px; }
+        .topbar h1 i { color: var(--secondary); }
+        .topbar p { margin: 5px 0 0 44px; color: #94a3b8; font-size: 0.95rem; }
 
         /* Dashboard Navigation Tabs */
         .tabs {
@@ -56,7 +59,7 @@
             border-bottom: 2px solid var(--border-color);
             position: sticky;
             top: 0;
-            z-index: 1000; /* Kept high to ensure it stays above map elements */
+            z-index: 1000;
         }
         .tab-btn {
             background: none;
@@ -68,6 +71,9 @@
             cursor: pointer;
             border-bottom: 3px solid transparent;
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         .tab-btn:hover { color: var(--secondary); }
         .tab-btn.active {
@@ -112,10 +118,11 @@
             margin-bottom: 20px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             border-bottom: 2px solid var(--bg-body);
             padding-bottom: 15px;
         }
+        .card-header i { font-size: 1.4rem; }
 
         /* KPI Metrics */
         .kpi-box { display: flex; align-items: center; justify-content: space-between; }
@@ -131,14 +138,13 @@
         .dot { width: 14px; height: 14px; border-radius: 50%; display: inline-block; border: 1px solid #333;}
 
         /* Badges & Pills */
-        .badge { padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase;}
+        .badge { padding: 5px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; display: inline-flex; align-items: center; gap: 5px;}
         .bg-green { background: #dcfce7; color: #166534; }
         .bg-yellow { background: #fef9c3; color: #854d0e; }
         .bg-blue { background: #dbeafe; color: #1e40af; }
-        .bg-red { background: #fee2e2; color: #991b1b; }
 
         .pill-grid { display: flex; flex-wrap: wrap; gap: 10px; }
-        .pill { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 6px 14px; border-radius: 20px; font-size: 0.9rem; color: #334155; font-weight: 500;}
+        .pill { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 6px 14px; border-radius: 20px; font-size: 0.9rem; color: #334155; font-weight: 500; display: flex; align-items: center; gap: 6px;}
 
         /* Data Tables for Findings */
         .findings-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
@@ -149,40 +155,45 @@
         ul.bullet-list { margin: 0; padding-left: 20px; }
         ul.bullet-list li { margin-bottom: 8px; }
         
+        /* FontAwesome integrated list items */
         .issue-item { position: relative; padding-left: 25px; margin-bottom: 10px; list-style: none;}
-        .issue-item::before { content: "⚠️"; position: absolute; left: 0; top: 2px; font-size: 0.9rem; }
+        .issue-item::before { 
+            content: "\f071"; 
+            font-family: "Font Awesome 6 Free"; 
+            font-weight: 900; 
+            position: absolute; 
+            left: 0; 
+            top: 2px; 
+            color: var(--warning); 
+            font-size: 1rem; 
+        }
 
         /* Highlight feature */
         .feature-box { background: linear-gradient(to right, #eff6ff, #ffffff); border-left: 4px solid var(--secondary); padding: 20px; border-radius: 8px; margin-top: 20px;}
-        .feature-box h4 { margin: 0 0 10px 0; color: var(--secondary); }
+        .feature-box h4 { margin: 0 0 10px 0; color: var(--secondary); display: flex; align-items: center; gap: 8px; }
 
         /* Responsive */
-        @media(max-width: 1024px) {
-            .grid-3 { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media(max-width: 768px) {
-            .grid-3, .grid-2 { grid-template-columns: 1fr; }
-            .tabs { overflow-x: auto; white-space: nowrap; }
-        }
+        @media(max-width: 1024px) { .grid-3 { grid-template-columns: repeat(2, 1fr); } }
+        @media(max-width: 768px) { .grid-3, .grid-2 { grid-template-columns: 1fr; } .tabs { overflow-x: auto; white-space: nowrap; } }
     </style>
 </head>
 <body>
 
     <div class="topbar">
         <div>
-            <h1>Urban Mobility Audit Dashboard</h1>
+            <h1><i class="fa-solid fa-building-user"></i> Urban Mobility Audit Dashboard</h1>
             <p>101 Cities Audit Initiative</p>
         </div>
         <div style="text-align: right;">
-            <span class="badge bg-green">Live Status</span>
+            <span class="badge bg-green"><i class="fa-solid fa-circle-check"></i> Live Status</span>
             <p style="margin: 5px 0 0; font-size: 0.85rem;">Data as per preliminary findings</p>
         </div>
     </div>
 
     <nav class="tabs">
-        <button class="tab-btn active" onclick="switchTab('page1')">📄 Page 1: Overview & Execution</button>
-        <button class="tab-btn" onclick="switchTab('page2')">🚇 Page 2: Coverage & Quality (Obj 1 & 2)</button>
-        <button class="tab-btn" onclick="switchTab('page3')">🚦 Page 3: Traffic, Sust. & Safety (Obj 3, 4, 5)</button>
+        <button class="tab-btn active" onclick="switchTab('page1')"><i class="fa-solid fa-chart-pie"></i> Overview & Execution</button>
+        <button class="tab-btn" onclick="switchTab('page2')"><i class="fa-solid fa-bus-simple"></i> Coverage & Quality (Obj 1 & 2)</button>
+        <button class="tab-btn" onclick="switchTab('page3')"><i class="fa-solid fa-traffic-light"></i> Traffic, Sust. & Safety (Obj 3, 4, 5)</button>
     </nav>
 
     <div class="page-container">
@@ -190,7 +201,7 @@
         <div id="page1" class="page active">
             
             <div class="card" style="margin-bottom: 25px; border-top: 4px solid var(--primary);">
-                <div class="card-header">🗺️ City Audit Status Map</div>
+                <div class="card-header"><i class="fa-solid fa-map-location-dot" style="color: var(--secondary);"></i> City Audit Status Map</div>
                 <div id="india-map"></div>
                 <div class="map-legend">
                     <div class="legend-item"><span class="dot" style="background: var(--ongoing);"></span> <span id="legend-ongoing">Ongoing Audits (--)</span></div>
@@ -200,7 +211,7 @@
 
             <div class="grid-3">
                 <div class="card">
-                    <div class="card-header">📈 Audit Action Plan</div>
+                    <div class="card-header"><i class="fa-solid fa-arrow-trend-up" style="color: var(--success);"></i> Audit Action Plan</div>
                     <div class="kpi-box">
                         <div class="kpi-value" id="kpi-ongoing">--</div>
                         <div class="kpi-target">/ <span id="kpi-total">--</span> <br>Cities</div>
@@ -212,43 +223,42 @@
                 </div>
 
                 <div class="card">
-                    <div class="card-header">🤝 Coordination & Engagement</div>
+                    <div class="card-header"><i class="fa-solid fa-handshake-angle" style="color: var(--secondary);"></i> Coordination & Engagement</div>
                     <table style="width: 100%; border-collapse: collapse;">
                         <tr>
                             <td style="padding: 10px 0; border-bottom: 1px solid #eee;"><strong>Sister Audit Offices</strong><br><span style="font-size:0.85rem;color:#666;">Railways, Commercial, Audit-II</span></td>
-                            <td style="text-align: right;"><span class="badge bg-blue">Active</span></td>
+                            <td style="text-align: right;"><span class="badge bg-blue"><i class="fa-solid fa-spinner fa-spin"></i> Active</span></td>
                         </tr>
                         <tr>
                             <td style="padding: 10px 0; border-bottom: 1px solid #eee;"><strong>Govt. Secretaries</strong><br><span style="font-size:0.85rem;color:#666;">Heads of Concerned Depts.</span></td>
-                            <td style="text-align: right;"><span class="badge bg-green">Mostly Completed</span></td>
+                            <td style="text-align: right;"><span class="badge bg-green"><i class="fa-solid fa-check"></i> Mostly Completed</span></td>
                         </tr>
                         <tr>
                             <td style="padding: 10px 0;"><strong>Auto/Taxi Associations</strong><br><span style="font-size:0.85rem;color:#666;">Public Stakeholders</span></td>
-                            <td style="text-align: right;"><span class="badge bg-yellow">Ongoing (by FAOs)</span></td>
+                            <td style="text-align: right;"><span class="badge bg-yellow"><i class="fa-solid fa-users"></i> Ongoing (by FAOs)</span></td>
                         </tr>
                     </table>
                 </div>
 
                 <div class="card">
-                    <div class="card-header">💾 IS & Data Collection</div>
+                    <div class="card-header"><i class="fa-solid fa-server" style="color: var(--primary);"></i> IS & Data Collection</div>
                     <p style="font-size: 0.9rem; margin-bottom: 15px;">FAOs instructed to approach IS/CDMA Wing for datasets:</p>
                     <div class="pill-grid">
-                        <span class="pill">VAHAN Portal</span>
-                        <span class="pill">Sarathi Data</span>
-                        <span class="pill">ICCC Dashboard & Data</span>
-                        <span class="pill">e-Challan</span>
-                        <span class="pill">Smart City traffic systems</span>
-                        <span class="pill">GIS-based systems</span>
-                        <span class="pill">State Portals</span>
+                        <span class="pill"><i class="fa-solid fa-file-invoice"></i> VAHAN Portal</span>
+                        <span class="pill"><i class="fa-solid fa-car"></i> Sarathi Data</span>
+                        <span class="pill"><i class="fa-solid fa-desktop"></i> ICCC Dashboard</span>
+                        <span class="pill"><i class="fa-solid fa-receipt"></i> e-Challan</span>
+                        <span class="pill"><i class="fa-solid fa-video"></i> Smart City systems</span>
+                        <span class="pill"><i class="fa-solid fa-earth-asia"></i> GIS-based systems</span>
                     </div>
                 </div>
             </div>
 
             <div class="card" style="margin-top: 25px;">
-                <div class="card-header">🚀 Innovative Methods & Audit Tools Execution</div>
+                <div class="card-header"><i class="fa-solid fa-rocket" style="color: var(--accent);"></i> Innovative Methods & Audit Tools Execution</div>
                 <div class="grid-2">
                     <div>
-                        <h4 style="color: var(--primary); margin-top: 0;">Spatial Analysis via QGIS Software</h4>
+                        <h4 style="color: var(--primary); margin-top: 0;"><i class="fa-solid fa-map" style="margin-right: 5px;"></i> Spatial Analysis via QGIS Software</h4>
                         <p style="font-size: 0.95rem; color: var(--text-light);">Used by some States (will be shared with all State Offices) for mapping and identifying:</p>
                         <div class="grid-2" style="gap: 10px; margin-top: 15px;">
                             <ul class="bullet-list">
@@ -265,7 +275,7 @@
                     </div>
                     <div>
                         <div class="feature-box">
-                            <h4>📱 Custom Technology Deployment</h4>
+                            <h4><i class="fa-solid fa-mobile-screen"></i> Custom Technology Deployment</h4>
                             <p style="margin: 0; font-size: 0.95rem;">
                                 An application for <strong>real-time visualisation of traffic</strong> has been specifically developed and deployed by <strong>PAG (Audit-I), Bihar</strong> to assist in execution.
                             </p>
@@ -278,7 +288,7 @@
         <div id="page2" class="page">
             <div class="grid-2">
                 <div class="card" style="border-top: 4px solid var(--secondary);">
-                    <div class="card-header">Objective 1: Extent of Coverage & Access</div>
+                    <div class="card-header"><i class="fa-solid fa-route" style="color: var(--secondary);"></i> Objective 1: Extent of Coverage & Access</div>
                     <table class="findings-table">
                         <tr>
                             <th>Policy, Plans, Inst. Mechanism & Finance</th>
@@ -305,7 +315,7 @@
                 </div>
 
                 <div class="card" style="border-top: 4px solid #8b5cf6;">
-                    <div class="card-header">Objective 2: Quality of Urban Transport</div>
+                    <div class="card-header"><i class="fa-solid fa-star" style="color: #8b5cf6;"></i> Objective 2: Quality of Urban Transport</div>
                     <table class="findings-table">
                         <tr>
                             <th>Affordability & Comfort</th>
@@ -337,7 +347,7 @@
             <div class="grid-3" style="grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));">
                 
                 <div class="card" style="border-top: 4px solid var(--accent);">
-                    <div class="card-header">Objective 3: Traffic & Congestion</div>
+                    <div class="card-header"><i class="fa-solid fa-car-burst" style="color: var(--accent);"></i> Objective 3: Traffic & Congestion</div>
                     <table class="findings-table">
                         <tr>
                             <th>Traffic Management</th>
@@ -364,7 +374,7 @@
                 </div>
 
                 <div class="card" style="border-top: 4px solid var(--success);">
-                    <div class="card-header">Objective 4: Sustainable & NMT</div>
+                    <div class="card-header"><i class="fa-solid fa-leaf" style="color: var(--success);"></i> Objective 4: Sustainable & NMT</div>
                     <table class="findings-table">
                         <tr>
                             <th>Sustainable Urban Transport</th>
@@ -391,7 +401,7 @@
                 </div>
 
                 <div class="card" style="border-top: 4px solid var(--danger);">
-                    <div class="card-header">Objective 5: Safe & Secure Mobility</div>
+                    <div class="card-header"><i class="fa-solid fa-shield-halved" style="color: var(--danger);"></i> Objective 5: Safe & Secure Mobility</div>
                     <table class="findings-table">
                         <tr>
                             <th>Safety Infrastructure</th>
@@ -438,8 +448,6 @@
             document.getElementById(pageId).classList.add('active');
             event.currentTarget.classList.add('active');
 
-            // Bug fix: Leaflet maps sometimes don't render tiles properly if they are loaded 
-            // while hidden. This forces the map to recalculate its size if Tab 1 is clicked again.
             if(pageId === 'page1' && map) {
                 setTimeout(() => { map.invalidateSize(); }, 100);
             }
@@ -450,13 +458,11 @@
         let markerLayerGroup;
 
         function initMap() {
-            // Define the geographical boundaries of India
             const indiaBounds = [
                 [6.5, 68.0], 
                 [37.5, 97.5] 
             ];
 
-            // Initialize the map with restricted boundaries
             map = L.map('india-map', {
                 center: [22.9, 78.9],
                 zoom: 4,
@@ -488,16 +494,14 @@
                     data.cities.forEach(city => {
                         let fillColor;
                         
-                        // Check status and update counts
                         if (city.status === "ongoing") {
-                            fillColor = "#10b981"; // Green
+                            fillColor = "#10b981"; 
                             ongoingCount++;
                         } else {
-                            fillColor = "#facc15"; // Yellow
+                            fillColor = "#facc15"; 
                             plannedCount++;
                         }
                         
-                        // Drop pins on the map
                         L.circleMarker([city.lat, city.lng], {
                             radius: 6,
                             fillColor: fillColor,
@@ -510,15 +514,12 @@
                         .addTo(markerLayerGroup);
                     });
 
-                    // Update Map Legends dynamically
                     document.getElementById('legend-ongoing').innerText = `Ongoing Audits (${ongoingCount})`;
                     document.getElementById('legend-planned').innerText = `To Be Taken Up (${plannedCount})`;
 
-                    // Update KPI numbers dynamically
                     document.getElementById('kpi-ongoing').innerText = ongoingCount;
                     document.getElementById('kpi-total').innerText = totalCities;
                     
-                    // Update the visual progress bar dynamically
                     let progressPercentage = (ongoingCount / totalCities) * 100;
                     document.getElementById('kpi-progress').style.width = progressPercentage + '%';
                 }
@@ -527,11 +528,9 @@
             }
         }
 
-        // Initialize Map on page load, then fetch data
         window.onload = function() {
             initMap();
             fetchAndUpdateData();
-            // Automatically poll for updates every 10 seconds
             setInterval(fetchAndUpdateData, 10000);
         };
     </script>
